@@ -99,6 +99,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles(); // szuka index.html
+app.UseStaticFiles();  // obsługuje /js, /css, itd.
 
 app.UseCors();
 app.UseAuthentication();
@@ -106,5 +108,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<EventHub>("/hubs/events");
+
+app.MapFallbackToFile("index.html");
+
 
 app.Run();

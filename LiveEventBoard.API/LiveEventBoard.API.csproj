@@ -24,4 +24,8 @@
       <ProjectReference Include="..\LiveEventBoard.Infrastructure\LiveEventBoard.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
+
 </Project>
