@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LiveEventBoard.Core\LiveEventBoard.Core.csproj" />
+      <ProjectReference Include="..\LiveEventBoard.Infrastructure\LiveEventBoard.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

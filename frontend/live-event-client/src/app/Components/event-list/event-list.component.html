@@ -1,0 +1,7 @@
+﻿<ul class="list-group">
+  <li *ngFor="let e of events" class="list-group-item">
+    <h5>{{ e.title }}</h5>
+    <p>{{ e.description }}</p>
+    <small>{{ e.date | date }}</small>
+  </li>
+</ul>
