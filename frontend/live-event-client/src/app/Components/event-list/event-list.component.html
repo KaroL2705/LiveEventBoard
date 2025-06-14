@@ -1,7 +1,25 @@
-﻿<ul class="list-group">
+﻿<app-add-event (eventAdded)="onEventAdded($event)"></app-add-event>
+
+<ul class="list-group">
   <li *ngFor="let e of events" class="list-group-item">
     <h5>{{ e.title }}</h5>
     <p>{{ e.description }}</p>
     <small>{{ e.date | date }}</small>
+
+    <!-- Komentarze -->
+    <div *ngIf="e.comments && e.comments.length > 0" class="mt-2">
+    <h6>Komentarze:</h6>
+      <ul>
+        <li *ngFor="let c of e.comments">
+          <strong>{{ c.author }}:</strong> {{ c.message }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Formularz dodania komentarza -->
+    <app-add-comment [eventId]="e.id!" (commentAdded)="onCommentAdded(e.id!, $event)"></app-add-comment>
+
+
   </li>
+
 </ul>

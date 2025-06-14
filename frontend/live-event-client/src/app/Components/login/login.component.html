@@ -6,3 +6,8 @@
     <button class="btn btn-primary">Zaloguj</button>
   </form>
 </div>
+
+<div *ngIf="showRegister">
+  <app-register></app-register>
+  <button (click)="toggleRegister()">Wróć do logowania</button>
+</div>

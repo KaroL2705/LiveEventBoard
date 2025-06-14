@@ -1,7 +1,11 @@
-﻿using LiveEventBoard.Application.Services;
+﻿using LiveEventBoard.API.Hubs;
+using LiveEventBoard.Application.Dto;
+using LiveEventBoard.Application.Services;
 using LiveEventBoard.Core.Models;
+using LiveEventBoard.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace LiveEventBoard.API.Controllers
 {
@@ -10,10 +14,15 @@ namespace LiveEventBoard.API.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventService _service;
+        private readonly IHubContext<EventHub> _hubContext;
+        private readonly AppDbContext _context;
 
-        public EventsController(IEventService service)
+
+        public EventsController(IEventService service, IHubContext<EventHub> hubContext, AppDbContext context)
         {
             _service = service;
+            _hubContext = hubContext;
+            _context = context;
         }
 
         [HttpGet]
@@ -31,8 +40,28 @@ namespace LiveEventBoard.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Event ev)
         {
+            await _hubContext.Clients.All.SendAsync("EventAdded", ev);
             await _service.AddEventAsync(ev);
             return Ok(ev);
+        }
+        
+        [HttpPost("comments")]
+        public async Task<IActionResult> AddComment([FromBody] CommentDto commentDto)
+        {
+            if (commentDto == null)
+                return BadRequest();
+
+            var comment = new Comment
+            {
+                Message = commentDto.Message,
+                Author = commentDto.Author,
+                EventId = commentDto.EventId
+            };
+
+            _context.Comments.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return Ok(comment);
         }
     }
 }
